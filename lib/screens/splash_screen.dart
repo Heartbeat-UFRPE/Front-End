@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> {
     super.initState();
     Future.delayed(Duration(seconds: 6)).then((value) => {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context)=>Register()
+          MaterialPageRoute(builder: (context)=>Login()
       ))
     });
   }

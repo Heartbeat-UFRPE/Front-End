@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heartbeat/screens/Register.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -6,110 +7,133 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              stops: [
-                0.1,
-                0.5,
-                0.8,
-                0.9
-              ],
-              colors: [
-                //F94F4F
-                Color(0xffe61919),
-                Color(0xffc93030),
-                Color(0xffbf4747),
-                Color(0xff950C0C)
-              ])),
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                stops: [
+                  0.1,
+                  0.5,
+                  0.8,
+                  0.9
+                ],
+                colors: [
+                  //F94F4F
+                  Color(0xffe61919),
+                  Color(0xffc93030),
+                  Color(0xffbf4747),
+                  Color(0xff950C0C)
+                ])),
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            Stack(
+            Column(
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top:70,bottom: 30),
-                      child: Image.asset("assets/heart.png",
+                Padding(
+                  padding: EdgeInsets.only(top:70,bottom: 30),
+                  child: Image.asset("assets/heart.png",
                       width: 160,
                       height: 160,
                       fit: BoxFit.contain),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      child: Form(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border(
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  child: Form(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
                                   bottom: BorderSide(
-                                    color: Colors.white70,
-                                    width: 0.5
+                                      color: Colors.white70,
+                                      width: 0.5
                                   )
-                                )
-                              ),
-                              child: TextFormField(
-                                obscureText: false,
-                                style: TextStyle(
-                                  color: Colors.white70
-                                ),
-                                decoration: InputDecoration(
-                                  icon: Icon(Icons.email,color: Colors.white70,),
-                                  border: InputBorder.none,
-                                  hintText: "Email",
-                                  hintStyle: TextStyle(color: Colors.white70,fontSize: 15),
-                                  contentPadding: EdgeInsets.only(
+                              )
+                          ),
+                          child: TextFormField(
+                            controller: emailController,
+                            obscureText: false,
+                            style: TextStyle(
+                                color: Colors.white70
+                            ),
+                            decoration: InputDecoration(
+                                icon: Icon(Icons.email,color: Colors.white70,),
+                                border: InputBorder.none,
+                                hintText: "Email",
+                                hintStyle: TextStyle(color: Colors.white70,fontSize: 15),
+                                contentPadding: EdgeInsets.only(
                                     top: 30,
                                     bottom: 30,
                                     right: 30,
                                     left: 5
-                                  )
-                                ),
-                              ),
+                                )
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Colors.white70,
-                                          width: 0.5
-                                      )
-                                  )
-                              ),
-                              child: TextFormField(
-                                obscureText: true,
-                                style: TextStyle(
-                                    color: Colors.white70
-                                ),
-                                decoration: InputDecoration(
-                                    icon: Icon(Icons.lock,color: Colors.white70,),
-                                    border: InputBorder.none,
-                                    hintText: "Senha",
-                                    hintStyle: TextStyle(color: Colors.white70,fontSize: 15),
-                                    contentPadding: EdgeInsets.only(
-                                        top: 30,
-                                        bottom: 30,
-                                        right: 30,
-                                        left: 5
-                                    )
-                                ),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.white70,
+                                      width: 0.5
+                                  )
+                              )
+                          ),
+                          child: TextFormField(
+                            controller: senhaController,
+                            obscureText: true,
+                            style: TextStyle(
+                                color: Colors.white70
+                            ),
+                            decoration: InputDecoration(
+                                icon: Icon(Icons.lock,color: Colors.white70,),
+                                border: InputBorder.none,
+                                hintText: "Senha",
+                                hintStyle: TextStyle(color: Colors.white70,fontSize: 15),
+                                contentPadding: EdgeInsets.only(
+                                    top: 30,
+                                    bottom: 30,
+                                    right: 30,
+                                    left: 5
+                                )
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                    margin: EdgeInsets.all(20.0),
+                    height: 60,
+                    width: 230,
+                    child: RaisedButton(
+                      child: const Text("Entrar", textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
+                      onPressed: () {},
+                      shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                      textColor: Colors.red,
+                      color: Colors.white,
+                    )),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: GestureDetector(
+                    child: Text("Ainda não tem uma conta?",
+                      style: TextStyle(color: Color(0xf1a0dc6)),),
+                    onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(
+                        builder: (context) => Register()
+                    )),
+                  ),
                 )
               ],
-            )
+            ),
           ],
         ),
       ),
