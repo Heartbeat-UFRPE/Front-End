@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:heartbeat/screens/Register.dart';
+import 'package:http/http.dart' as http;
+import 'package:async/async.dart';
+import 'package:heartbeat/screens/home.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -8,8 +13,22 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
+  final apiURL = 'https://jsonplaceholder.typicode.com/todos/1';
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
+
+
+  void authenticate () async{
+     /* var response = await http.post(apiURL,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{"email": emailController.text,"password":senhaController.text}));
+      */
+      Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Home() ));
+      //Navigator.pushNamed(context, "/home");
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +136,7 @@ class _LoginState extends State<Login> {
                     width: 230,
                     child: RaisedButton(
                       child: const Text("Entrar", textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
-                      onPressed: () {},
+                      onPressed: () => authenticate(),
                       shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                       textColor: Colors.red,
                       color: Colors.white,
