@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heartbeat/screens/login.dart';
-import 'package:heartbeat/screens/Configuration.dart';
+import 'package:heartbeat/screens/Register.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
 class Splash extends StatefulWidget {
@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> {
     super.initState();
     Future.delayed(Duration(seconds: 3)).then((value) => {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context)=>Configuration()
+          MaterialPageRoute(builder: (context)=>Register()
       ))
     });
   }
