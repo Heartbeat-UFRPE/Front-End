@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
-import 'Cardapio/Alimento.dart';
+import 'package:http/http.dart' as http;
 import 'Cardapio/AlimentoListStyle/alimento_tile.dart';
 import 'Cardapio/DUMMY_Alimentos.dart';
 
@@ -12,12 +14,29 @@ class Cardapio extends StatefulWidget {
 }
 
 class _CardapioState extends State<Cardapio> {
+
+  List data;
+  Future<String> getJSONData() async{
+    final String url = "http://192.168.0.7:3333/cardapio";
+    var response = await http.get(url);
+
+    data = json.decode(response.body);
+    print(data);
+
+  }
+
   String _currentday = "Segunda-feira";
+
 
   @override
   Widget build(BuildContext context) {
     final Alimentos = {...DUMMY_Alimentos};
-
+    @override
+    void initState(){
+      super.initState();
+      this.getJSONData();
+    }
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -137,11 +156,6 @@ class _CardapioState extends State<Cardapio> {
 
 }}
 
-BoxDecoration myBoxDecoration() {
-  return BoxDecoration(
-    border: Border.all(
-      color: Colors.red,
-      width: 2.0,
-    ),
-  );
+Future<http.Response> fetchAlbum() {
+  return http.get('https://jsonplaceholder.typicode.com/albums/1');
 }
