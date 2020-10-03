@@ -6,29 +6,28 @@ import 'package:heartbeat/screens/components/custom_drawer.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:http/http.dart' as http;
 
-class BloodPressureGraph extends StatefulWidget {
+class WeightGraph extends StatefulWidget {
   @override
-  _BloodPressureGraphState createState() => _BloodPressureGraphState();
+  _WeightGraphState createState() => _WeightGraphState();
 }
 
-class Pressao {
+class Weight {
   final int date;
-  final int pressao;
+  final int weight;
 
-  Pressao({this.date, this.pressao});
+  Weight({this.date, this.weight});
 
-  factory Pressao.fromJson(Map<String, dynamic> json) {
-    return Pressao(
+  factory Weight.fromJson(Map<String, dynamic> json) {
+    return Weight(
       date: json['date'] as int,
-      pressao: json['pressao'] as int,
+      weight: json['weight'] as int,
     );
   }
 }
 
-class _BloodPressureGraphState extends State<BloodPressureGraph> {
+class _WeightGraphState extends State<WeightGraph> {
 
-  TextEditingController _topPressure = TextEditingController();
-  TextEditingController _bottomPressure = TextEditingController();
+  TextEditingController _weight = TextEditingController();
 
   Future<void> addPressure() async {
     final apiURL = 'https://jsonplaceholder.typicode.com/todos/1';
@@ -36,44 +35,44 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{"topPressure": _topPressure.text,"bottomPressure":_bottomPressure.text}));
+        body: jsonEncode(<String, String>{"weight": _weight.text}));
 
   }
 
-   Future<List<Pressao>> getPressure() async{
+  Future<List<Weight>> getPressure() async{
     final apiURL = 'https://jsonplaceholder.typicode.com/todos/1';
     var response = await http.post(apiURL,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{"topPressure": _topPressure.text,"bottomPressure":_bottomPressure.text}));
+        body: jsonEncode(<String, String>{"weight": _weight.text}));
 
     final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
-    return parsed.map<Pressao>((json) => Pressao.fromJson(json)).toList();
+    return parsed.map<Weight>((json) => Weight.fromJson(json)).toList();
 
   }
 
-   _getChart(){
-     getPressure().then((value){
+  _getChart(){
+    getPressure().then((value){
 
-       var series = [
-         charts.Series(
-           domainFn: (Pressao pressaoData, _) => pressaoData.date,
-           measureFn: (Pressao pressaoData, _) => pressaoData.pressao,
-           colorFn: (Pressao pressaoData, _) => charts.Color.black,
-           id: 'Clicks',
-           data: value,
-         ),
-       ];
+      var series = [
+        charts.Series(
+          domainFn: (Weight pressaoData, _) => pressaoData.date,
+          measureFn: (Weight pressaoData, _) => pressaoData.weight,
+          colorFn: (Weight pressaoData, _) => charts.Color.black,
+          id: 'Clicks',
+          data: value,
+        ),
+      ];
 
-       var chart = charts.LineChart(
-         series,
-         animate: true,
-       );
+      var chart = charts.LineChart(
+        series,
+        animate: true,
+      );
 
-       return chart;
-     });
+      return chart;
+    });
 
   }
 
@@ -133,14 +132,14 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
       context: context,// user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Digite sua pressão arterial de hoje'),
+          title: Text('Digite seu peso de hoje'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 SizedBox(
                   child: TextField(
                     keyboardType: TextInputType.number,
-                    controller: _topPressure,
+                    controller: _weight,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       hintText: '140',
@@ -149,19 +148,7 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
                     ),
                   ),
                 ),
-                Divider(),
-                SizedBox(
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    controller: _bottomPressure,
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                        hintText: '80',
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(fontWeight: FontWeight.w500)
-                    ),
-                  ),
-                )
+                Divider()
               ],
             ),
           ),

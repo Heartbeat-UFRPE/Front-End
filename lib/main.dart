@@ -16,9 +16,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Heartbeat',
+      theme: ThemeData(
+        primaryColor: Color(0xffbf4747),
+        visualDensity: VisualDensity.adaptivePlatformDensity
+      ),
       home:Splash(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
+
 

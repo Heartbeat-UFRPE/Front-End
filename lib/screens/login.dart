@@ -19,13 +19,13 @@ class _LoginState extends State<Login> {
 
 
   void authenticate () async{
-     /* var response = await http.post(apiURL,
+      var response = await http.post(apiURL,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{"email": emailController.text,"password":senhaController.text}));
-      */
-      Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Home() ));
+      print(response);
+      //Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Home() ));
       //Navigator.pushNamed(context, "/home");
   }
 

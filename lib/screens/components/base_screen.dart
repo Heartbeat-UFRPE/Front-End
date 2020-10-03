@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:heartbeat/screens/drawer_screens/blood_pressure_graph.dart';
 import 'package:heartbeat/screens/home.dart';
 import 'package:heartbeat/stores/page_store.dart';
 import 'package:mobx/mobx.dart';
@@ -37,7 +38,8 @@ class _BaseScreenState extends State<BaseScreen> {
         controller: pageController,
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
-          Home()
+          Home(),
+          BloodPressureGraph(),
         ],
       ),
     );
