@@ -15,28 +15,26 @@ class Cardapio extends StatefulWidget {
 
 class _CardapioState extends State<Cardapio> {
 
-  List data;
+  String _currentday = "Segunda-feira";
+  dynamic data;
+
   Future<String> getJSONData() async{
     final String url = "http://192.168.0.7:3333/cardapio";
     var response = await http.get(url);
-
     data = json.decode(response.body);
     print(data);
-
   }
 
-  String _currentday = "Segunda-feira";
-
+  @override
+  void initState(){
+    super.initState();
+    getJSONData();
+  }
 
   @override
   Widget build(BuildContext context) {
     final Alimentos = {...DUMMY_Alimentos};
-    @override
-    void initState(){
-      super.initState();
-      this.getJSONData();
-    }
-    
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -84,7 +82,6 @@ class _CardapioState extends State<Cardapio> {
                           ),
 
                       ),
-
                       Container(
                         child: SizedBox(
                             height: 200,

@@ -3,6 +3,7 @@ import 'package:heartbeat/screens/login.dart';
 import 'package:heartbeat/screens/Register.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
+
 class Splash extends StatefulWidget {
   @override
   _SplashState createState() => _SplashState();

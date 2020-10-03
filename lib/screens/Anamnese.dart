@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:flutter/scheduler.dart' show timeDilation;
+
 
 class Anamnese extends StatefulWidget {
   @override

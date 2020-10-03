@@ -93,12 +93,7 @@ class _LoginState extends State<Login> {
                                     border: InputBorder.none,
                                     hintText: "Senha",
                                     hintStyle: TextStyle(color: Colors.white70,fontSize: 15),
-                                    contentPadding: EdgeInsets.only(
-                                        top: 30,
-                                        bottom: 30,
-                                        right: 30,
-                                        left: 5
-                                    )
+                                    contentPadding: EdgeInsets.all(8.0)
                                 ),
                               ),
                             )
