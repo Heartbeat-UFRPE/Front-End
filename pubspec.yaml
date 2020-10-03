@@ -33,6 +33,7 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   mobx: ^1.2.1+2
   get_it: ^4.0.4
+  date_format: ^1.0.9
 
 
 dev_dependencies:
