@@ -70,7 +70,7 @@ class _RegisterState extends State<Register> {
                                 ),
                                 child: TextFormField(
                                   obscureText: true,
-                                  keyboardType: TextInputType.name,
+                                  keyboardType: TextInputType.text,
                                   controller: _controlNome,
                                   validator: _validateNome,
                                   style: TextStyle(
