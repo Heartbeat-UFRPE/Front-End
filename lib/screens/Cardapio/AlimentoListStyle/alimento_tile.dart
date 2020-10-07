@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import '../Alimento.dart';
 
 class AlimentoTile extends StatelessWidget {
-
-
-
   final Alimento alimento;
   const AlimentoTile(this.alimento);
 

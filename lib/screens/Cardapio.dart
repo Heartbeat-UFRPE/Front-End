@@ -82,15 +82,15 @@ class _CardapioState extends State<Cardapio> {
                           ),
 
                       ),
-                      Container(
-                        child: SizedBox(
+                      Column(
+                        children: <Widget> [SizedBox(
                             height: 200,
                             child: new Expanded( child :ListView.builder(
                                 itemCount: Alimentos.length,
                                 itemBuilder: (ctx, i) => AlimentoTile(Alimentos.values.elementAt(i)),
                              ),
                           )
-                        ),
+                        ),]
 
                   ),
                   Container(
@@ -105,15 +105,16 @@ class _CardapioState extends State<Cardapio> {
                   ),
 
                   ),
-                  Container(
-                  child: SizedBox(
-                    height: 300,
-                    child: new Expanded( child :ListView.builder(
-                        itemCount: Alimentos.length,
-                        itemBuilder: (ctx, i) => AlimentoTile(Alimentos.values.elementAt(i)),
-                       ),
-                    )
-                    ),
+                  Column(
+                    children: <Widget> [SizedBox(
+                      height: 300,
+                      child: new Expanded( child :ListView.builder(
+
+                          itemCount: Alimentos.length,
+                          itemBuilder: (ctx, i) => AlimentoTile(Alimentos.values.elementAt(i)),
+                         ),
+                      )
+                    ),]
 
 
                   ),
@@ -129,15 +130,16 @@ class _CardapioState extends State<Cardapio> {
                       ),
 
                   ),
-                  Container(
-                    child: SizedBox(
-                      height: 300,
-                      child: new Expanded( child :ListView.builder(
-                          itemCount: Alimentos.length,
-                          itemBuilder: (ctx, i) => AlimentoTile(Alimentos.values.elementAt(i)),
-                      ),
-                      )
-                    ),
+                  Column(
+                    children: <Widget> [
+                      SizedBox(
+                        height: 300,
+                        child: new Expanded( child :ListView.builder(
+                            itemCount: Alimentos.length,
+                            itemBuilder: (ctx, i) => AlimentoTile(Alimentos.values.elementAt(i)),
+                        ),
+                        )
+                      ),]
 
 
                ),

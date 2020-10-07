@@ -15,6 +15,8 @@ class _RegisterState extends State<Register> {
   final _controlSenha = TextEditingController();
   final _controlConfirmSenha = TextEditingController();
   bool _checkedtermos = false;
+  bool _checkMasculino = true;
+  bool _checkFeminino = false;
   final GlobalKey<FormState> _globalRegisterKey = GlobalKey<FormState>();
 
   DateTime nascimento = DateTime.utc(2000, 01, 01);
@@ -93,6 +95,57 @@ class _RegisterState extends State<Register> {
                                 ),
                               ),
                               //------------------------------------ ------------------------------------------------------------------------------------------------------
+                              Container(
+                                padding: EdgeInsets.only(
+                                    top: 15,
+                                    bottom: 10
+                                ),
+                                child: Text(
+                                  "Você pratica exercicios físicos ?",
+                                  style: TextStyle(color: Colors.black87, fontSize: 19),
+
+                                ),
+
+                              ),
+                              Container (
+                                child: CheckboxListTile(
+                                  title: const Text('Feminino', style: TextStyle(color: Colors.black87),),
+                                  checkColor: Colors.white,
+                                  value: _checkFeminino ,
+                                  activeColor: Colors.red,
+
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      if (_checkFeminino == false) {
+                                        _checkFeminino = true ;
+                                        _checkMasculino = false;
+                                      }
+                                    });
+                                  },
+                                  secondary: const Icon(Icons.check, color: Colors.black87,),
+                                ),
+
+                              ),
+                              Container (
+                                child: CheckboxListTile(
+                                  title: const Text('Masculino', style: TextStyle(color: Colors.black87),),
+                                  checkColor: Colors.white,
+                                  value: _checkMasculino,
+                                  activeColor: Colors.red,
+
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      if (_checkMasculino == false) {
+                                        _checkMasculino = true ;
+                                        _checkFeminino = false;
+                                      }
+                                    });
+                                  },
+                                  secondary: const Icon(Icons.clear, color: Colors.black87,),
+                                ),
+
+                              ),
+                //---------------------------------------------------------------------------------------------------------------------------
                               Container(
                                   decoration: BoxDecoration(
                                       border: Border(
@@ -241,7 +294,7 @@ class _RegisterState extends State<Register> {
                                 ),
                                 child: TextFormField(
                                   controller: _controlConfirmSenha,
-
+                                  validator: _validateConfirmSenha,
                                   obscureText: true,
                                   style: TextStyle(
                                       color: Colors.white70
@@ -360,11 +413,14 @@ class _RegisterState extends State<Register> {
     if (senha.contains(new RegExp(r'[0-9]')) == false) {
       return "A senha deve possuir caracteres numéricos";
     }
+
     return null;
   }
 
-  String _validateConfirmSenha(String Confirmsenha, String senha) {
-    if (Confirmsenha != senha) {
+  String _validateConfirmSenha(String Confirmsenha) {
+    final String senhaUser = _controlSenha.text.toString();
+    final String confsenhaUser = _controlConfirmSenha.text.toString();
+    if (confsenhaUser != senhaUser) {
       return "A confirmação de senha deve coincidir com a senha";
     }
     return null;
@@ -376,8 +432,10 @@ class _RegisterState extends State<Register> {
     final String senhaUser = _controlSenha.text.toString();
     final String confsenhaUser = _controlConfirmSenha.text.toString();
 
-    if (!_globalRegisterKey.currentState.validate()) {}
-    return;
+    if (!_globalRegisterKey.currentState.validate()) {
+      return;
+    }
+
   }
 
   showAlertDialogtermos(BuildContext context) {

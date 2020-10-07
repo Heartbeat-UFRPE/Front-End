@@ -8,6 +8,7 @@ class Anamnese extends StatefulWidget {
 }
 
 class _AnamneseState extends State<Anamnese> {
+
   double _currentSliderValueSono = 8;
   double _currentSliderValuePeso = 70;
   double _currentSliderValueAltura = 170;
@@ -153,7 +154,7 @@ class _AnamneseState extends State<Anamnese> {
                                     bottom: 10
                                 ),
                                 child: Text(
-                                    "Você possui alguma dessas enfermidades ?",
+                                    "Você ou alguem da sua familia possui alguma dessas enfermidades ?",
                                     style: TextStyle(color: Colors.black87, fontSize: 19),
 
                                 ),
@@ -348,7 +349,9 @@ class _AnamneseState extends State<Anamnese> {
                                 width: 250,
                                 child: RaisedButton(
                                   child: const Text("Continuar", textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
-                                  onPressed: () {},
+                                  onPressed: () {
+
+                                  },
                                   shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                                   textColor: Colors.white,
                                   color: Colors.redAccent,
