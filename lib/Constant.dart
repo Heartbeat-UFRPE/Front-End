@@ -54,6 +54,46 @@ class Constant {
   Quaisquer ambiguidades na interpretação destes Termos de serviço não devem ser interpretadas contra a parte que os redigiu.
   """;
   }
+
+  List frases(){
+    return [
+      "Amai, porque nada melhor para a saúde que um amor correspondido",
+      "A objeção, o desvio, a desconfiança alegre, a vontade de troçar são sinais de saúde: tudo o que é absoluto pertence à patologia.",
+      "A verdadeira amizade é como a saúde: o seu valor só é reconhecido quando a perdemos.",
+      "O maior erro que um homem pode cometer é sacrificar a sua saúde a qualquer outra vantagem.",
+      "A felicidade e a saúde são incompatíveis com a ociosidade.",
+      "Dificuldades e obstáculos são fontes valiosas de saúde e força para qualquer sociedade.",
+      "O dinheiro é a coisa mais importante do mundo. Representa: saúde, força, honra, generosidade e beleza, do mesmo modo que a falta dele representa: doença, fraqueza, desgraça, maldade e fealdade.",
+      "Se alguém procura a saúde, pergunta-lhe primeiro se está disposto a evitar no futuro as causas da doença; em caso contrário, abstém-te de o ajudar.",
+      "A verdadeira felicidade é impossível sem verdadeira saúde, e a verdadeira saúde é impossível sem um rigoroso controle da gula.",
+      "A única diferença entre a loucura e a saúde mental é que a primeira é muito mais comum.",
+      "O primeiro dos bens, depois da saúde, é a paz interior.",
+      "Renunciar ao amor parecia-me tão insensato como desinteressarmo-nos da saúde porque acreditamos na eternidade.",
+      "A felicidade consiste em três pontos: trabalho, paz e saúde.",
+      "Em geral, nove décimos da nossa felicidade baseiam-se exclusivamente na saúde. Com ela, tudo se transforma em fonte de prazer.",
+      "Ser estúpido, egoísta e ter boa saúde, eis as condições ideais para se ser feliz. Mas se a primeira vos falta, tudo está perdido.",
+      "A felicidade é como a saúde: se não sentes a falta dela, significa que ela existe.",
+      "A cólera prejudica o sossego da vida e a saúde do corpo, ofusca o julgamento e cega a razão.",
+      "Bens materiais e até saúde podem ser recuperados. Mas o tempo que se deixou passar, sem aproveitá-lo, é irrecuperável. O ócio é um pecado capital e um perigo, porque facilmente se torna pai de muitos pecados.",
+      "Os velhos invejam a saúde e vigor dos moços, estes não invejam o juízo e a prudência dos velhos: uns conhecem o que perderam, os outros desconhecem o que lhes falta.",
+      "Come pouco ao almoço e menos ainda ao jantar, que a saúde de todo o corpo constrói-se na oficina do estômago.",
+      "Eu ainda preciso de mais descanso saudável para trabalhar no meu máximo. Minha saúde é meu capital principal e eu tenho e quero administrá-la inteligentemente.",
+      "A alma que abriga a filosofia deve, para a sua saúde, tornar o corpo são.",
+      "Nem todas as empresas precisam investir em qualidade de vida, promoção de saúde ou coisa parecida. Só aquelas que querem ser competitivas no século XXI.",
+      "É parte da cura o desejo de ser curado.",
+      "Alguns pensam que para se ser amigo basta querê-lo, como se para se estar são bastasse desejar a saúde...",
+      "O segredo da saúde mental e corporal está em não se lamentar pelo passado, não se preocupar com o futuro, nem se adiantar aos problemas, mas viver sabia e seriamente o presente.",
+      "Não queremos perder, nem deveríamos perder: saúde, pessoas, posição, dignidade ou confiança. Mas perder e ganhar faz parte do nosso processo de humanização.",
+      "Nada beneficiará mais a saúde da humanidade e aumentará as chances de sobrevivência da vida na Terra quanto a dieta vegetariana.",
+      "O Homem joga sua saúde fora para conseguir dinheiro, depois, depois usa o dinheiro para reconquista-la novamente.",
+      "A única maneira de conservar a saúde é comer o que não se quer, beber o que não se gosta e fazer aquilo que se preferiria não fazer.",
+      "Felicidade é nada mais que boa saúde e memória ruim.",
+      "Tu não compras nem a alegria, nem a saúde, nem o amor verdadeiro.",
+      "A saúde e o prazer são para o homem o que o sol e o ar são para as plantas."
+
+    ];
+
+  }
 }
 
 

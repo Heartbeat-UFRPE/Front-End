@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:heartbeat/screens/Register.dart';
-import 'package:http/http.dart' as http;
-import 'package:async/async.dart';
 import 'package:heartbeat/screens/home.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 class Login extends StatefulWidget {
   @override
@@ -13,7 +14,19 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  final apiURL = 'https://jsonplaceholder.typicode.com/todos/1';
+  FlutterSecureStorage _storage = FlutterSecureStorage();
+
+  Future<String> _setToken(String _token) async{
+    await _storage.write(key: "token",value:_token );
+
+  }
+
+  Future<String> _setUser(Object _user) async{
+    await _storage.write(key: "user",value:_user );
+
+  }
+
+  final apiURL = 'http://192.168.100.5:4444/login';
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
 
@@ -24,9 +37,19 @@ class _LoginState extends State<Login> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{"email": emailController.text,"password":senhaController.text}));
-      print(response);
-      //Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Home() ));
-      //Navigator.pushNamed(context, "/home");
+      dynamic resp = jsonDecode(response.body);
+
+      if(response.statusCode != 200){
+          print(response.statusCode);
+      }
+      else{
+        final token = resp["token"];
+        _setToken(token);
+        _setUser(resp["user"]);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Home() ));
+        Navigator.pushNamed(context, "/home");
+      }
+
   }
 
 
@@ -78,6 +101,7 @@ class _LoginState extends State<Login> {
                               )
                           ),
                           child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
                             controller: emailController,
                             obscureText: false,
                             style: TextStyle(
