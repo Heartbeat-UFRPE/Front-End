@@ -48,9 +48,10 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
         },
         body: jsonEncode(<String, String>{"topPressure": _topPressure.text,"bottomPressure":_bottomPressure.text}));
 
-    final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+    print(response.body);
+    //final parsed = json.decode(response.body).cast<String, dynamic>();
 
-    return parsed.map<Pressao>((json) => Pressao.fromJson(json)).toList();
+    //return parsed.map<Pressao>((json) => Pressao.fromJson(json)).toList();
 
   }
 

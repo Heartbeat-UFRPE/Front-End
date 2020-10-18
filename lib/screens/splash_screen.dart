@@ -45,7 +45,7 @@ class _SplashState extends State<Splash> {
 
     Future.delayed(Duration(seconds: 3)).then((value) => {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context)=> _token.isNotEmpty ? Home() : Login()
+          MaterialPageRoute(builder: (context)=> (_token == null) ? Login() : Home()
       ))
     });
   }
