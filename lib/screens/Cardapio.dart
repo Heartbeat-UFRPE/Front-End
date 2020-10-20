@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'dart:ui';
-
+import 'dart:io';
+import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'Cardapio/Alimento.dart';
 import 'Cardapio/AlimentoListStyle/alimento_tile.dart';
-import 'Cardapio/DUMMY_Alimentos.dart';
+
 
 
 class Cardapio extends StatefulWidget {
@@ -15,26 +17,38 @@ class Cardapio extends StatefulWidget {
 
 class _CardapioState extends State<Cardapio> {
 
-  String _currentday = "Segunda-feira";
+  String _currentday = "segunda";
   dynamic data;
 
-  Future<String> getJSONData() async{
-    final String url = "http://192.168.0.7:3333/cardapio";
+
+  Future<List<Alimento>> getJSONData(String weekDia , String dayhour) async{
+
+    final String url = "http://192.168.0.7:4444/cardapio";
     var response = await http.get(url);
     data = json.decode(response.body);
-    print(data);
+    var dayfood = data[weekDia];
+    var hourfood = dayfood[dayhour];
+    List<Alimento> diafood = [];
+    print(hourfood);
+    for(var u in hourfood){
+
+      Alimento alimento = Alimento(comida: u["comida"],Kcal: u["kcal"],quantidade: u["quantidade"]);
+      diafood.add(alimento);
+    }
+    print(diafood);
+    print("a");
+    return diafood;
   }
+
+
 
   @override
   void initState(){
     super.initState();
-    getJSONData();
   }
 
   @override
   Widget build(BuildContext context) {
-    final Alimentos = {...DUMMY_Alimentos};
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -42,7 +56,7 @@ class _CardapioState extends State<Cardapio> {
           builder: (BuildContext context) {
             return IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () { Scaffold.of(context).openDrawer(); },
+              onPressed: () { Navigator.of(context).pop(); },
               tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             );
           },
@@ -82,15 +96,31 @@ class _CardapioState extends State<Cardapio> {
                           ),
 
                       ),
-                      Column(
-                        children: <Widget> [SizedBox(
-                            height: 200,
-                            child: new Expanded( child :ListView.builder(
-                                itemCount: Alimentos.length,
-                                itemBuilder: (ctx, i) => AlimentoTile(Alimentos.values.elementAt(i)),
-                             ),
+                      Container(
+                        child: SizedBox(
+                            height: 150,
+                            child: new Expanded( 
+                                child : FutureBuilder(
+                              future: getJSONData(_currentday , "cafe"),
+                              builder: (BuildContext context, AsyncSnapshot snapshot){
+
+                                if(snapshot.data == null){
+                                  return Container(
+                                    child: Center(
+                                      child: Text("Loading..."),
+                                    ),
+                                  );
+                                  } else {
+                                  return ListView.builder(
+                                    itemCount: snapshot.data.length,
+                                    itemBuilder: (ctx, i) => AlimentoTile(snapshot.data[i]),
+
+                                );}
+
+                              },
+                            )
                           )
-                        ),]
+                        ),
 
                   ),
                   Container(
@@ -105,16 +135,30 @@ class _CardapioState extends State<Cardapio> {
                   ),
 
                   ),
-                  Column(
-                    children: <Widget> [SizedBox(
-                      height: 300,
-                      child: new Expanded( child :ListView.builder(
+                  Container(
+                  child: SizedBox(
+                    height: 150,
+                    child: new Expanded( child : FutureBuilder(
+                        future: getJSONData(_currentday , "almoco"),
+                        builder: (BuildContext context, AsyncSnapshot snapshot){
 
-                          itemCount: Alimentos.length,
-                          itemBuilder: (ctx, i) => AlimentoTile(Alimentos.values.elementAt(i)),
-                         ),
-                      )
-                    ),]
+                        if(snapshot.data == null){
+                          return Container(
+                              child: Center(
+                              child: Text("Loading..."),
+                              ),
+                              );
+                          } else {
+                        return ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (ctx, i) => AlimentoTile(snapshot.data[i]),
+
+                            );}
+
+                        },
+    )
+                    )
+                    ),
 
 
                   ),
@@ -130,19 +174,33 @@ class _CardapioState extends State<Cardapio> {
                       ),
 
                   ),
-                  Column(
-                    children: <Widget> [
-                      SizedBox(
-                        height: 300,
-                        child: new Expanded( child :ListView.builder(
-                            itemCount: Alimentos.length,
-                            itemBuilder: (ctx, i) => AlimentoTile(Alimentos.values.elementAt(i)),
-                        ),
+                  Container(
+                    child: SizedBox(
+                    height: 150,
+                    child: new Expanded( child : FutureBuilder(
+                      future: getJSONData(_currentday , "jantar"),
+                      builder: (BuildContext context, AsyncSnapshot snapshot){
+
+                        if(snapshot.data == null){
+                        return Container(
+                          child: Center(
+                            child: Text("Loading..."),
+                                ),
+                              );
+                        } else {
+                          return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (ctx, i) => AlimentoTile(snapshot.data[i]),
+
+                        );}
+
+                          },
                         )
-                      ),]
+                    )
+                  ),
 
 
-               ),
+                  ),
             ])
 
           ]
@@ -153,7 +211,12 @@ class _CardapioState extends State<Cardapio> {
        ])
     ));
 
-}}
+
+
+}
+
+  }
+
 
 Future<http.Response> fetchAlbum() {
   return http.get('https://jsonplaceholder.typicode.com/albums/1');

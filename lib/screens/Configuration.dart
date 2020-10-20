@@ -1,5 +1,11 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
+import 'package:http/http.dart' as http;
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Configuration extends StatefulWidget {
   @override
@@ -7,8 +13,27 @@ class Configuration extends StatefulWidget {
 }
 
 class _ConfigurationState extends State<Configuration> {
-  final _controlNewEmail = TextEditingController();
-  final _controlNewSenha = TextEditingController();
+
+  FlutterSecureStorage _storage = FlutterSecureStorage();
+
+  final apiURLchangeemail = 'http://192.168.0.7:4444/login';
+  final _controlnewEmail = TextEditingController();
+
+  /*/void changeEmail() async{
+    final apiURLupEmail = 'http://192.168.0.7:4444/user/update/email/$userID';
+    await http.post(apiURLupEmail,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "email": _controlnewEmail.text,}));
+  }
+  */
+
+  final _controlNome = TextEditingController();
+  final _controlSenha = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +44,8 @@ class _ConfigurationState extends State<Configuration> {
           builder: (BuildContext context) {
             return IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              tooltip: MaterialLocalizations
-                  .of(context)
-                  .openAppDrawerTooltip,
+              onPressed: () { Navigator.of(context).pop(); },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             );
           },
         ),
@@ -33,7 +54,7 @@ class _ConfigurationState extends State<Configuration> {
       body: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-        ),
+            ),
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -48,9 +69,7 @@ class _ConfigurationState extends State<Configuration> {
                         child: Column(
                           children: <Widget>[
                             GestureDetector(
-                              onTap: () {
-                                showAlertDialogAlterEmail(context);
-                              },
+                              onTap: (){showAlertDialogAlterEmail(context);},
                               child: Container(
                                 decoration: BoxDecoration(
                                     border: Border(
@@ -69,8 +88,7 @@ class _ConfigurationState extends State<Configuration> {
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Alterar email",
-                                      hintStyle: TextStyle(
-                                          color: Colors.black, fontSize: 17),
+                                      hintStyle: TextStyle(color: Colors.black,fontSize: 17),
                                       contentPadding: EdgeInsets.only(
                                           top: 30,
                                           bottom: 30,
@@ -82,9 +100,7 @@ class _ConfigurationState extends State<Configuration> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
-                                showAlertDialogAlterSenha(context);
-                              },
+                              onTap: (){showAlertDialogAlterSenha(context);},
                               child: Container(
                                 decoration: BoxDecoration(
                                     border: Border(
@@ -103,8 +119,7 @@ class _ConfigurationState extends State<Configuration> {
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Alterar senha",
-                                      hintStyle: TextStyle(
-                                          color: Colors.black, fontSize: 17),
+                                      hintStyle: TextStyle(color: Colors.black,fontSize: 17),
                                       contentPadding: EdgeInsets.only(
                                           top: 30,
                                           bottom: 30,
@@ -116,38 +131,37 @@ class _ConfigurationState extends State<Configuration> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
-                                showAlertDialogDelete(context);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Colors.red,
-                                            width: 0.8
-                                        )
-                                    )
-                                ),
-                                child: TextFormField(
-                                  enabled: false,
-                                  obscureText: false,
-                                  style: TextStyle(
-                                      color: Colors.black
-                                  ),
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: "Deletar conta",
-                                      hintStyle: TextStyle(
-                                          color: Colors.red, fontSize: 18),
-                                      contentPadding: EdgeInsets.only(
-                                          top: 30,
-                                          bottom: 30,
-                                          right: 30,
-                                          left: 2
-                                      )
-                                  ),
-                                ),
-                              ),
+                                onTap: (){
+                                  showAlertDialogDelete(context);
+                                },
+                                child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.red,
+                                                  width: 0.8
+                                              )
+                                          )
+                                      ),
+                                      child: TextFormField(
+                                        enabled: false,
+                                        obscureText: false,
+                                        style: TextStyle(
+                                            color: Colors.black
+                                        ),
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: "Deletar conta",
+                                            hintStyle: TextStyle(color: Colors.red,fontSize: 18),
+                                            contentPadding: EdgeInsets.only(
+                                                top: 30,
+                                                bottom: 30,
+                                                right: 30,
+                                                left: 2
+                                            )
+                                        ),
+                                      ),
+                                    ),
                             )
                           ],
                         ),
@@ -163,47 +177,44 @@ class _ConfigurationState extends State<Configuration> {
     );
   }
   showAlertDialogAlterEmail(BuildContext context) {
-    Widget novoEmail = TextFormField(
-      obscureText: false,
-      controller: _controlNewEmail,
-      validator: _validateNewEmail,
-      style: TextStyle(
-          color: Colors.black
-      ),
-      decoration: InputDecoration(
-          icon: Icon(Icons.email, color: Colors.black,),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.red, width: 2.0),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-          ),
-          border: UnderlineInputBorder(
-          ),
-          hintText: "Novo Email",
-          hintStyle: TextStyle(color: Colors.black, fontSize: 15),
-          contentPadding: EdgeInsets.only(
-              top: 30,
-              bottom: 30,
-              right: 30,
-              left: 5
-          )
-      ),
+    Widget novoEmail = TextField(
+        obscureText: false,
+        controller: _controlnewEmail,
+        style: TextStyle(
+            color: Colors.black
+        ),
+        decoration: InputDecoration(
+            icon: Icon(Icons.email,color: Colors.black,),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.red, width: 2.0),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.red),
+            ) ,
+            border: UnderlineInputBorder(
+            ),
+            hintText: "Novo Email",
+            hintStyle: TextStyle(color: Colors.black,fontSize: 15),
+            contentPadding: EdgeInsets.only(
+                top: 30,
+                bottom: 30,
+                right: 30,
+                left: 5
+            )
+        ),
     );
     Widget naoButton = FlatButton(
       child: Text("Cancelar"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
+      onPressed:  () {Navigator.of(context).pop();},
     );
     Widget simButton = FlatButton(
       child: Text("Alterar"),
-      onPressed: () {
-        String newEmail = _controlNewEmail.text.toString();
-      },
+      onPressed:  () {},
     );
     AlertDialog alert = AlertDialog(
       title: Text("Alterar Email"),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
       content: novoEmail,
       actions: [
         naoButton,
@@ -218,27 +229,24 @@ class _ConfigurationState extends State<Configuration> {
       },
     );
   }
-
   showAlertDialogAlterSenha(BuildContext context) {
-    Widget novaSenha = TextFormField(
-      obscureText: true,
-      controller: _controlNewSenha,
-      validator: _validateNewSenha,
+    Widget novaSenha = TextField(
+      obscureText: false,
       style: TextStyle(
           color: Colors.black
       ),
       decoration: InputDecoration(
-          icon: Icon(Icons.lock, color: Colors.black,),
+          icon: Icon(Icons.lock,color: Colors.black,),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.red, width: 2.0),
           ),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.red),
-          ),
+          ) ,
           border: UnderlineInputBorder(
           ),
           hintText: "Nova Senha",
-          hintStyle: TextStyle(color: Colors.black, fontSize: 15),
+          hintStyle: TextStyle(color: Colors.black,fontSize: 15),
           contentPadding: EdgeInsets.only(
               top: 30,
               bottom: 30,
@@ -249,18 +257,12 @@ class _ConfigurationState extends State<Configuration> {
     );
     Widget naoButton = FlatButton(
       child: Text("Cancelar"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
+      onPressed:  () {Navigator.of(context).pop();},
     );
     Widget simButton = FlatButton(
       child: Text("Alterar"),
-      onPressed: () {
-        String newSenha = _controlNewSenha.text.toString();
-
-      },
+      onPressed:  () {},
     );
-
     AlertDialog alert = AlertDialog(
       title: Text("Alterar Senha"),
       content: novaSenha,
@@ -277,25 +279,14 @@ class _ConfigurationState extends State<Configuration> {
       },
     );
   }
-
   showAlertDialogDelete(BuildContext context) {
-    Widget naoButton = FlatButton(
-      child: Text("Não"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    Widget simButton = FlatButton(
-      child: Text("Sim"),
-      color: Colors.red,
-      onPressed: () {},
-    );
+
     AlertDialog alert = AlertDialog(
       title: Text("Deletar a conta"),
       content: Text("Você tem certeza?"),
       actions: [
-        naoButton,
-        simButton,
+        CupertinoDialogAction(child: Text('Yes'), onPressed: (){}),
+        CupertinoDialogAction(child: Text('No'), onPressed: (){Navigator.of(context).pop();}),
       ],
       elevation: 24.0,
     );
@@ -307,30 +298,5 @@ class _ConfigurationState extends State<Configuration> {
         return alert;
       },
     );
-  }
-  String _validateNewEmail(String email) {
-    if (email.length < 3 || email.length > 50) {
-      return "O email deve possuir mais de 3 caracteres e menos de 50 caracteres";
-    }
-    RegExp reg = new RegExp(r"^[^@]+@[^@]+\.[^@]+$");
-    if (reg.hasMatch(email) == false) {
-      return "Insira um email valido";
-    }
-    return null;
-  }
-
-  String _validateNewSenha(String senha) {
-    if (senha.length < 4 || senha.length > 15) {
-      return "A senha deve possuir mais de 4 e menos de 15 caracteres";
-    }
-    if (senha.contains(new RegExp(r'[a-z]')) == false ||
-        senha.contains(new RegExp(r'[A-Z]')) == false) {
-      return "A senha deve possuir Letras";
-    }
-    if (senha.contains(new RegExp(r'[0-9]')) == false) {
-      return "A senha deve possuir caracteres numéricos";
-    }
-
-    return null;
   }
 }

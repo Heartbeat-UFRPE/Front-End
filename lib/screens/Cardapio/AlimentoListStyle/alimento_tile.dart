@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import '../Alimento.dart';
 
 class AlimentoTile extends StatelessWidget {
+
+
+
   final Alimento alimento;
   const AlimentoTile(this.alimento);
 
@@ -13,7 +16,7 @@ class AlimentoTile extends StatelessWidget {
       Container(
         decoration: myBoxDecoration(),
           child: ListTile(
-      title: Text(alimento.nome),
+      title: Text(alimento.comida , style: TextStyle(fontWeight: FontWeight.bold),),
       subtitle: Text(alimento.quantidade),
       trailing: Text(alimento.Kcal.toString() + " Kcal"),
     ));
