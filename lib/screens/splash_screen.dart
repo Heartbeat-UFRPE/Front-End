@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:heartbeat/screens/home.dart';
 import 'package:heartbeat/screens/login.dart';
-import 'package:heartbeat/screens/Register.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:heartbeat/screens/temp.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
+
+ List<charts.Series<LinearSales, int>> _createSampleData() {
+final data = [
+new LinearSales(0, 5),
+new LinearSales(1, 25),
+new LinearSales(2, 100),
+new LinearSales(3, 75),
+];
+
+return [
+new charts.Series<LinearSales, int>(
+id: 'Sales',
+domainFn: (LinearSales sales, _) => sales.year,
+measureFn: (LinearSales sales, _) => sales.sales,
+data: data,
+)
+];
+}
 
 class Splash extends StatefulWidget {
   @override
@@ -45,7 +64,7 @@ class _SplashState extends State<Splash> {
 
     Future.delayed(Duration(seconds: 3)).then((value) => {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context)=> (_token == null) ? Login() : Home()
+          MaterialPageRoute(builder: (context)=> (_token == null) ? Login() : LineAnimationZoomChart(_createSampleData())
       ))
     });
   }

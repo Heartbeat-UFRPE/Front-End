@@ -23,7 +23,7 @@ class DrawerMenu extends StatelessWidget {
             Navigator.of(context).pop();
             Navigator.of(context).push(MaterialPageRoute(builder: (_) => BloodPressureGraph()));
           },
-          selected: _pageStore.page == 0,
+          selected: _pageStore.page == 1,
       ),
         Divider(),
         DrawerMenuItem(title: "Peso",
@@ -33,17 +33,17 @@ class DrawerMenu extends StatelessWidget {
             Navigator.of(context).pop();
             Navigator.of(context).push(MaterialPageRoute(builder: (_) => WeightGraph()));
           },
-          selected: _pageStore.page == 1,
+          selected: _pageStore.page == 2,
         ),
         Divider(),
-//        DrawerMenuItem(title: "Gráfico de peso",
-//          icon: FontAwesomeIcons.chartArea,
-//          function: (){
-//            Navigator.of(context).pop();
-//            _pageStore.setPage(2);
-//          },
-//          selected: _pageStore.page == 2,
-//        )
+        DrawerMenuItem(title: "Cardápio",
+          icon: FontAwesomeIcons.breadSlice,
+          function: (){
+            Navigator.of(context).pop();
+            _pageStore.setPage(2);
+          },
+          selected: _pageStore.page == 3,
+        ),
       ],
     );
   }

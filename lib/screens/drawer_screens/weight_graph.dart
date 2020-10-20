@@ -127,7 +127,10 @@ class _WeightGraphState extends State<WeightGraph> {
             children: <Widget>[
               Padding(padding: EdgeInsets.only(top: 10),child:
               Text("Seu histórico de peso",style: TextStyle(fontSize: 25))),
-              chartWidget
+              //chartWidget
+              Container(color: Colors.deepPurpleAccent,
+                  width: 500,
+                  child: chartWidget)
             ],
           )
         ],

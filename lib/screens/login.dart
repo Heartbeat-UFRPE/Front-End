@@ -171,12 +171,13 @@ class _LoginState extends State<Login> {
                   margin: EdgeInsets.all(20),
                   child: GestureDetector(
                     child: Text("Ainda não tem uma conta?",
-                      style: TextStyle(color: Color(0xf1a0dc6)),),
+                      style: TextStyle(color: Colors.white),),
                     onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(
                         builder: (context) => Register()
                     )),
                   ),
-                )
+                ),
+                
               ],
             ),
           ],
