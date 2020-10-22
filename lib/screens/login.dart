@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:heartbeat/screens/Register.dart';
+import 'package:heartbeat/screens/CRUD/RecuperarSenha.dart';
+import 'package:heartbeat/screens/CRUD/Register.dart';
 import 'package:heartbeat/screens/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -174,6 +175,16 @@ class _LoginState extends State<Login> {
                       style: TextStyle(color: Colors.white),),
                     onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(
                         builder: (context) => Register()
+                    )),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: GestureDetector(
+                    child: Text("Esqueceu sua senha?",
+                      style: TextStyle(color: Colors.white),),
+                    onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(
+                        builder: (context) => RecuperarSenha()
                     )),
                   ),
                 ),

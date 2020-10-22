@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:heartbeat/screens/home.dart';
 import 'dart:ui';
 import 'package:http/http.dart' as http;
 
@@ -85,7 +86,9 @@ class _ConfigurationState extends State<Configuration> {
           builder: (BuildContext context) {
             return IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () { Navigator.of(context).pop(); },
+              onPressed: (){
+                Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Home() ));
+                },
               tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             );
           },
