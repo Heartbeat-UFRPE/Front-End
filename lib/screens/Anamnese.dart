@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 class Anamnese extends StatefulWidget {
   @override
@@ -13,13 +15,19 @@ class _AnamneseState extends State<Anamnese> {
   double _currentSliderValueAltura = 170;
   double _currentSliderValueestresse = 5;
   bool _checkHipertensao = false;
-  bool _checkpressaobaixa = false;
+  bool _checkdiabetes = false;
+  bool _checkanemia = false;
   bool _checkcadio = false;
-  bool _checkarritmia = false;
+  bool _checkfumante = false;
   bool _checksimExercicio = true;
   bool _checknaoExercicio = false;
 
+  FlutterSecureStorage _storage = FlutterSecureStorage();
 
+  void sendAnamnese() async{
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +174,7 @@ class _AnamneseState extends State<Anamnese> {
                                     value: _checkHipertensao,
                                     activeColor: Colors.red,
                                     onChanged: (bool value) {
-                                      setState(() { if (_checkHipertensao == true) {_checkHipertensao = false;} else {_checkHipertensao = true;} ;
+                                      setState(() { if (_checkHipertensao == true) {_checkHipertensao = false;} else {_checkHipertensao = true;}
                                       });
                                     },
                                     secondary: const Icon(Icons.add, color: Colors.black87,),
@@ -176,11 +184,11 @@ class _AnamneseState extends State<Anamnese> {
                                   child: CheckboxListTile(
                                     title: const Text('Pressão Baixa', style: TextStyle(color: Colors.black87),),
                                     checkColor: Colors.white,
-                                    value: _checkpressaobaixa,
+                                    value: _checkdiabetes,
                                     activeColor: Colors.red,
                                     onChanged: (bool value) {
                                       setState(() {
-                                        if (_checkpressaobaixa == true) {_checkpressaobaixa = false;} else {_checkpressaobaixa = true;} ;;
+                                        if (_checkdiabetes == true) {_checkdiabetes = false;} else {_checkdiabetes = true;}
                                       });
                                     },
                                     secondary: const Icon(Icons.add, color: Colors.black87,),
@@ -195,7 +203,7 @@ class _AnamneseState extends State<Anamnese> {
 
                                     onChanged: (bool value) {
                                       setState(() {
-                                        if (_checkcadio == true) {_checkcadio = false;} else {_checkcadio = true;} ;;
+                                        if (_checkcadio == true) {_checkcadio = false;} else {_checkcadio = true;}
                                       });
                                     },
                                     secondary: const Icon(Icons.add, color: Colors.black87,),
@@ -203,14 +211,29 @@ class _AnamneseState extends State<Anamnese> {
                               ),
                               Container (
                                   child: CheckboxListTile(
-                                    title: const Text('Arritmia', style: TextStyle(color: Colors.black87),),
+                                    title: const Text('Anemia', style: TextStyle(color: Colors.black87),),
                                     checkColor: Colors.white,
-                                    value: _checkarritmia,
+                                    value: _checkanemia,
                                     activeColor: Colors.red,
 
                                     onChanged: (bool value) {
                                       setState(() {
-                                        if (_checkarritmia == true) {_checkarritmia = false;} else {_checkarritmia = true;} ;;
+                                        if (_checkanemia == true) {_checkanemia = false;} else {_checkanemia = true;}
+                                      });
+                                    },
+                                    secondary: const Icon(Icons.add, color: Colors.black87,),
+                                  )
+                              ),
+                              Container (
+                                  child: CheckboxListTile(
+                                    title: const Text('Fumante', style: TextStyle(color: Colors.black87),),
+                                    checkColor: Colors.white,
+                                    value: _checkfumante,
+                                    activeColor: Colors.red,
+
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        if (_checkfumante == true) {_checkfumante = false;} else {_checkfumante = true;}
                                       });
                                     },
                                     secondary: const Icon(Icons.add, color: Colors.black87,),
