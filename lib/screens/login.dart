@@ -16,13 +16,8 @@ class _LoginState extends State<Login> {
 
   FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  Future<String> _setToken(String _token) async{
-    await _storage.write(key: "token",value:_token );
-
-  }
-
-  Future<String> _setUser(Object _user) async{
-    await _storage.write(key: "user",value:_user );
+  Future<String> _setStorageKey(String _key,_value) async{
+    await _storage.write(key: _key,value:_value.toString());
 
   }
 
@@ -44,8 +39,15 @@ class _LoginState extends State<Login> {
       }
       else{
         final token = resp["token"];
-        _setToken(token);
-        _setUser(resp["user"]);
+        final userId = resp["user"][0]["id"];
+        final userName = resp["user"][0]["name"];
+        final email = resp["user"][0]["email"];
+        _setStorageKey("token",token);
+        _setStorageKey("userId",userId);
+        _setStorageKey("userName",userName);
+        _setStorageKey("userEmail",email);
+
+
         Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Home() ));
         Navigator.pushNamed(context, "/home");
       }
@@ -169,12 +171,13 @@ class _LoginState extends State<Login> {
                   margin: EdgeInsets.all(20),
                   child: GestureDetector(
                     child: Text("Ainda não tem uma conta?",
-                      style: TextStyle(color: Color(0xf1a0dc6)),),
+                      style: TextStyle(color: Colors.white),),
                     onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(
                         builder: (context) => Register()
                     )),
                   ),
-                )
+                ),
+                
               ],
             ),
           ],

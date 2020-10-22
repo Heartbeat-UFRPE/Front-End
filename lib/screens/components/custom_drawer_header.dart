@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
-  final user_name = "Ricardo";
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class CustomDrawerHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Bem vindo, $user_name",style: TextStyle(
+                Text("Bem vindo",style: TextStyle(
                   color: Colors.white70,
                   fontSize: 18,
                   fontWeight: FontWeight.w500
@@ -35,3 +37,4 @@ class CustomDrawerHeader extends StatelessWidget {
     );
   }
 }
+
