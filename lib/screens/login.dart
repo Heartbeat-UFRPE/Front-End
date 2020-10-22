@@ -35,7 +35,7 @@ class _LoginState extends State<Login> {
       dynamic resp = jsonDecode(response.body);
 
       if(response.statusCode != 200){
-          print(response.statusCode);
+          print(response.body);
       }
       else{
         final token = resp["token"];

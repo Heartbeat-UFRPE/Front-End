@@ -7,6 +7,8 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+
+
 class WeightGraph extends StatefulWidget {
   @override
   _WeightGraphState createState() => _WeightGraphState();
@@ -26,23 +28,15 @@ class Weight {
   }
 }
 
-class _WeightGraphState extends State<WeightGraph> {
+Future <List<charts.Series<Weight, int>>> _createSampleData() async {
+//  final data = [
+//    new LinearSales(0, 5),
+//    new LinearSales(1, 25),
+//    new LinearSales(2, 100),
+//    new LinearSales(3, 75),
+//  ];
 
-  TextEditingController _weight = TextEditingController();
-
-  FlutterSecureStorage _storage = FlutterSecureStorage();
-
-  Future<void> addPressure() async {
-    final apiURL = 'https://jsonplaceholder.typicode.com/todos/1';
-    await http.post(apiURL,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{"weight": _weight.text}));
-
-  }
-
-  Future<List<Weight>> getPressure() async{
+    FlutterSecureStorage _storage = FlutterSecureStorage();
 
     String userId = await _storage.read(key: "userId");
 
@@ -54,58 +48,65 @@ class _WeightGraphState extends State<WeightGraph> {
           'Content-Type': 'application/json; charset=UTF-8',
         });
 
-    final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+    //final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+    print(response);
+    //List data = [parsed.map<Weight>((json) => Weight.fromJson(json)).toList()];
 
-    return parsed.map<Weight>((json) => Weight.fromJson(json)).toList();
+//    return [
+//      new charts.Series<Weight, int>(
+//        id: 'Peso',
+//        domainFn: (Weight sales, _) => sales.date,
+//        measureFn: (Weight sales, _) => sales.weight,
+//        data: data,
+//      )
+//    ];
+}
 
-  }
+class _WeightGraphState extends State<WeightGraph> {
 
-  _getChart(){
-    getPressure().then((value){
+  List data;
 
-      var series = [
-        charts.Series(
-          domainFn: (Weight pesoData, _) => pesoData.date,
-          measureFn: (Weight pesoData, _) => pesoData.weight,
-          colorFn: (Weight pesoData, _) => charts.Color.black,
-          id: 'Clicks',
-          data: value,
-        ),
-      ];
+  TextEditingController _weight = TextEditingController();
 
-      var chart = charts.LineChart(
-        series,
-        animate: true,
-      );
-
-      return chart;
-    });
+  Future<void> addPressure() async {
+    final apiURL = 'https://jsonplaceholder.typicode.com/todos/1';
+    await http.post(apiURL,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{"weight": _weight.text}));
 
   }
 
   @override
   void initState() {
     super.initState();
+//    _createSampleData().then((value){
+//      data = value;
+//    });
+    FlutterSecureStorage _storage = FlutterSecureStorage();
+
+     _storage.read(key: "userId").then((value) async{
+       final apiURL = 'http://192.168.100.5:4444/weight/$value';
+
+       var response = await http.get(apiURL,
+           headers: <String, String>{
+             'Content-Type': 'application/json; charset=UTF-8',
+           });
+       print(response);
+     });
 
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-//    var data = [
-//      Pressao(0, 12),
-//      Pressao(800, 42 ),
-//      Pressao(1600, 64),
-//      Pressao(2000, 70),
-//      Pressao(2018, 79),
-//    ];
+
 
     var chartWidget =  Padding(
       padding: EdgeInsets.all(15.0),
       child: SizedBox(
         height: 300.0,
-        child: _getChart(),
+        child: Container()//charts.LineChart(data),
       ),
     );
 
@@ -130,7 +131,8 @@ class _WeightGraphState extends State<WeightGraph> {
               //chartWidget
               Container(color: Colors.deepPurpleAccent,
                   width: 500,
-                  child: chartWidget)
+                  child: chartWidget
+              )
             ],
           )
         ],

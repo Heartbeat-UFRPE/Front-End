@@ -8,9 +8,16 @@ import 'package:heartbeat/stores/page_store.dart';
 
 
 
-class DrawerMenu extends StatelessWidget {
+class DrawerMenu extends StatefulWidget {
 
+  @override
+  _DrawerMenuState createState() => _DrawerMenuState();
+}
+
+class _DrawerMenuState extends State<DrawerMenu> {
   final PageStore _pageStore = GetIt.I<PageStore>();
+
+
 
   @override
   Widget build(BuildContext context) {
