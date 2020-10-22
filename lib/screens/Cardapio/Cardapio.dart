@@ -5,8 +5,10 @@ import 'dart:ui';
 import 'dart:io';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'Cardapio/Alimento.dart';
-import 'Cardapio/AlimentoListStyle/alimento_tile.dart';
+import 'Alimento.dart';
+import 'AlimentoListStyle/alimento_tile.dart';
+
+
 
 
 
@@ -99,11 +101,10 @@ class _CardapioState extends State<Cardapio> {
                       Container(
                         child: SizedBox(
                             height: 150,
-                            child: new Expanded( 
+                            child: Row( children : [ Expanded(
                                 child : FutureBuilder(
                               future: getJSONData(_currentday , "cafe"),
                               builder: (BuildContext context, AsyncSnapshot snapshot){
-
                                 if(snapshot.data == null){
                                   return Container(
                                     child: Center(
@@ -115,14 +116,11 @@ class _CardapioState extends State<Cardapio> {
                                     itemCount: snapshot.data.length,
                                     itemBuilder: (ctx, i) => AlimentoTile(snapshot.data[i]),
 
-                                );}
-
-                              },
+                                );}}))])
                             )
-                          )
-                        ),
+                      ),
 
-                  ),
+
                   Container(
                   padding: EdgeInsets.only(
                           top: 20,
@@ -135,33 +133,27 @@ class _CardapioState extends State<Cardapio> {
                   ),
 
                   ),
-                  Container(
-                  child: SizedBox(
-                    height: 150,
-                    child: new Expanded( child : FutureBuilder(
-                        future: getJSONData(_currentday , "almoco"),
-                        builder: (BuildContext context, AsyncSnapshot snapshot){
+                      Container(
+                          child: SizedBox(
+                              height: 150,
+                              child: Row( children : [ Expanded(
+                                  child : FutureBuilder(
+                                      future: getJSONData(_currentday , "almoco"),
+                                      builder: (BuildContext context, AsyncSnapshot snapshot){
+                                        if(snapshot.data == null){
+                                          return Container(
+                                            child: Center(
+                                              child: Text("Loading..."),
+                                            ),
+                                          );
+                                        } else {
+                                          return ListView.builder(
+                                            itemCount: snapshot.data.length,
+                                            itemBuilder: (ctx, i) => AlimentoTile(snapshot.data[i]),
 
-                        if(snapshot.data == null){
-                          return Container(
-                              child: Center(
-                              child: Text("Loading..."),
-                              ),
-                              );
-                          } else {
-                        return ListView.builder(
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (ctx, i) => AlimentoTile(snapshot.data[i]),
-
-                            );}
-
-                        },
-    )
-                    )
-                    ),
-
-
-                  ),
+                                          );}}))])
+                          )
+                      ),
                   Container(
                       padding: EdgeInsets.only(
                       top: 20,
@@ -174,40 +166,30 @@ class _CardapioState extends State<Cardapio> {
                       ),
 
                   ),
-                  Container(
-                    child: SizedBox(
-                    height: 150,
-                    child: new Expanded( child : FutureBuilder(
-                      future: getJSONData(_currentday , "jantar"),
-                      builder: (BuildContext context, AsyncSnapshot snapshot){
+                      Container(
+                          child: SizedBox(
+                              height: 150,
+                              child: Row( children : [ Expanded(
+                                  child : FutureBuilder(
+                                      future: getJSONData(_currentday , "jantar"),
+                                      builder: (BuildContext context, AsyncSnapshot snapshot){
+                                        if(snapshot.data == null){
+                                          return Container(
+                                            child: Center(
+                                              child: Text("Loading..."),
+                                            ),
+                                          );
+                                        } else {
+                                          return ListView.builder(
+                                            itemCount: snapshot.data.length,
+                                            itemBuilder: (ctx, i) => AlimentoTile(snapshot.data[i]),
 
-                        if(snapshot.data == null){
-                        return Container(
-                          child: Center(
-                            child: Text("Loading..."),
-                                ),
-                              );
-                        } else {
-                          return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (ctx, i) => AlimentoTile(snapshot.data[i]),
-
-                        );}
-
-                          },
-                        )
-                    )
-                  ),
-
-
-                  ),
+                                          );}}))])
+                          )
+                      ),
             ])
-
           ]
         )
-
-
-
        ])
     ));
 

@@ -7,6 +7,9 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../login.dart';
+
+
 class Configuration extends StatefulWidget {
   @override
   _ConfigurationState createState() => _ConfigurationState();
@@ -19,20 +22,58 @@ class _ConfigurationState extends State<Configuration> {
   final apiURLchangeemail = 'http://192.168.0.7:4444/login';
   final _controlnewEmail = TextEditingController();
 
-  /*/void changeEmail() async{
-    final apiURLupEmail = 'http://192.168.0.7:4444/user/update/email/$userID';
-    await http.post(apiURLupEmail,
+  void changeEmail() async{
+    String emailcheck = _controlnewEmail.text;
+    final apiURLcheck = 'http://192.168.0.7:4444/userEmail/$emailcheck';
+    var response = await http.get(apiURLcheck,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          "email": _controlnewEmail.text,}));
+        });
+    print(response.body);
+    if (response.body == '[]') {
+      if (_validateEmail(_controlnewEmail.text) == null) {
+        String userId = await _storage.read(key: "userId");
+        final apiURLupEmail = 'http://192.168.0.7:4444/user/update/email/$userId';
+        await http.post(apiURLupEmail,
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+              "email": _controlnewEmail.text,}));
+        Navigator.of(context).pop();
+        showAlertDialogErro(context, "Email Alterada com Sucesso!","Uhuuuuuuuuuu !");
+      }else {showAlertDialogErro(context, _validateEmail(_controlnewEmail.text), "Opa !");}
+    }else {showAlertDialogErro(context, "Este email já foi cadastrado", "Opa !");}
   }
-  */
 
-  final _controlNome = TextEditingController();
   final _controlSenha = TextEditingController();
 
+  void changeSenha() async{
+    String userId = await _storage.read(key: "userId");
+    final apiURLupSenha = 'http://192.168.0.7:4444/user/update/password/$userId';
+      if (_validateSenha(_controlSenha.text) == null){
+        await http.post(apiURLupSenha,
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+              "password": _controlSenha.text,}));
+        Navigator.of(context).pop();
+        showAlertDialogErro(context, "Senha Alterada com Sucesso!","Uhuuuuuuuuuu !");
+
+    }else {showAlertDialogErro(context, _validateSenha(_controlSenha.text),"Opa !");}
+  }
+
+  void deleteAccount() async{
+    String userId = await _storage.read(key: "userId");
+    final apiURLdelAcc = 'http://192.168.0.7:4444/user/delete/$userId';
+    await http.get(apiURLdelAcc,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+    await _storage.deleteAll();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Login() ));
+  }
 
 
   @override
@@ -176,6 +217,24 @@ class _ConfigurationState extends State<Configuration> {
       ),
     );
   }
+  String _validateEmail(String email) {
+    if (email.length < 3 || email.length > 50) {
+      return "O email deve possuir mais de 3 caracteres e menos de 50 caracteres";
+    }
+    RegExp reg = new RegExp(r"^[^@]+@[^@]+\.[^@]+$");
+    if (reg.hasMatch(email) == false) {
+      return "Insira um email valido";
+    }
+    return null;
+  }
+
+  String _validateSenha(String senha) {
+    if (senha.length < 4 || senha.length > 15) {
+      return "A senha deve possuir mais de 4 e menos de 15 caracteres";
+    }
+    return null;
+  }
+
   showAlertDialogAlterEmail(BuildContext context) {
     Widget novoEmail = TextField(
         obscureText: false,
@@ -209,7 +268,7 @@ class _ConfigurationState extends State<Configuration> {
     );
     Widget simButton = FlatButton(
       child: Text("Alterar"),
-      onPressed:  () {},
+      onPressed:  () {changeEmail();},
     );
     AlertDialog alert = AlertDialog(
       title: Text("Alterar Email"),
@@ -229,8 +288,34 @@ class _ConfigurationState extends State<Configuration> {
       },
     );
   }
+  showAlertDialogErro(BuildContext context, String alerta, String upperText) {
+    Widget naoButton = FlatButton(
+      child: Text("Ok!", style: TextStyle(color: Colors.amberAccent)),
+      onPressed:  () {Navigator.of(context).pop();},
+    );
+    AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      backgroundColor: Colors.red,
+      title: Text(upperText, style: TextStyle(color: Colors.white),),
+      content: Text(alerta, style: TextStyle(color: Colors.white),),
+      actions: [
+        naoButton,
+      ],
+      elevation: 24.0,
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
   showAlertDialogAlterSenha(BuildContext context) {
     Widget novaSenha = TextField(
+      controller: _controlSenha,
       obscureText: false,
       style: TextStyle(
           color: Colors.black
@@ -261,7 +346,7 @@ class _ConfigurationState extends State<Configuration> {
     );
     Widget simButton = FlatButton(
       child: Text("Alterar"),
-      onPressed:  () {},
+      onPressed:  () {changeSenha();},
     );
     AlertDialog alert = AlertDialog(
       title: Text("Alterar Senha"),
@@ -280,14 +365,24 @@ class _ConfigurationState extends State<Configuration> {
     );
   }
   showAlertDialogDelete(BuildContext context) {
+        Widget naoButton = FlatButton(
+          child: Text("Cancelar" , style: TextStyle(color: Colors.white),),
+          onPressed:  () {Navigator.of(context).pop();},
+        );
+        Widget simButton = FlatButton(
+        child: Text("Deletar" , style: TextStyle(color: Colors.white),),
+        onPressed:  () {deleteAccount();},
+        );
+        AlertDialog alert = AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(32.0))),
+          backgroundColor: Colors.red,
+        title: Text("Deletar Conta" , style: TextStyle(color: Colors.white),),
 
-    AlertDialog alert = AlertDialog(
-      title: Text("Deletar a conta"),
-      content: Text("Você tem certeza?"),
-      actions: [
-        CupertinoDialogAction(child: Text('Yes'), onPressed: (){}),
-        CupertinoDialogAction(child: Text('No'), onPressed: (){Navigator.of(context).pop();}),
-      ],
+        actions: [
+        naoButton,
+        simButton,
+        ],
       elevation: 24.0,
     );
 

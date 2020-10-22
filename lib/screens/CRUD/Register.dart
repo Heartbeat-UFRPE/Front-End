@@ -8,7 +8,7 @@ import 'package:heartbeat/Constant.dart' ;
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'Anamnese.dart';
+import 'RecuperarSenha.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -54,7 +54,7 @@ class _RegisterState extends State<Register> {
           body: jsonEncode(<String, String>{
             "name": _controlNome.text,
             "email": _controlEmail.text,
-            "birth": formatDate(nascimento, [dd, "-", mm, "-", yyyy]),
+            "birth": nascimento.toIso8601String(),
             "sex": _controlSex,
             "password": _controlSenha.text}));
       final apiURLlogin = 'http://192.168.0.7:4444/login';
@@ -161,12 +161,12 @@ class _RegisterState extends State<Register> {
                                   ),
                                   child: Text(
                                     "Qual o seu sexo ?",
-                                    style: TextStyle(color: Colors.red, fontSize: 19),
+                                    style: TextStyle(color: Colors.red, fontSize: 17),
 
                                   ),
 
                                 ),
-                                Divider(),
+
                                 Container (
                                   child: CheckboxListTile(
                                     title: const Text('Feminino', style: TextStyle(color: Colors.redAccent),),
@@ -206,6 +206,20 @@ class _RegisterState extends State<Register> {
                                   ),
 
                                 ),
+                                //---------------------------------------------------------------------------------------------------------------------------
+
+                                Center( child: Container(
+                                  padding: EdgeInsets.only(
+                                    top: 15,
+                                  ),
+                                  child: Text(
+                                    "Qual a sua data de nascimento?",
+                                    style: TextStyle(color: Colors.black87, fontSize: 17),
+                                    textAlign: TextAlign.left,
+                                  ),
+
+                                ),),
+                                Divider(),
                                 //---------------------------------------------------------------------------------------------------------------------------
                                 Container(
                                     decoration: BoxDecoration(
@@ -507,14 +521,14 @@ class _RegisterState extends State<Register> {
     if (_validateEmail(emailUser) != null){
       AlertSnackBar(_validateEmail(emailUser), _controlEmail,true);
       return;}
-    if (_checkMasculino == true) {_controlSex = "M"; }
+    if (_checkMasculino == true) {_controlSex = "M"; } else {_controlSex = "F";}
     if (_validateSenha(senhaUser) != null){
       AlertSnackBar(_validateSenha(senhaUser), _controlSenha,true);
       return;}
     if (senhaUser != confsenhaUser){
       AlertSnackBar("A confirmação de senha deve ser igual a senha", _controlConfirmSenha,true);
       return;}
-    else {_controlSex = "F";}
+
     if (_checkedtermos == false){
       AlertSnackBar("Por favor aceite os termos de Uso", _controlConfirmSenha,false);
       return;

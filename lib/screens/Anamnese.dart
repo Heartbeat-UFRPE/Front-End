@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 class Anamnese extends StatefulWidget {
   @override
@@ -20,7 +22,12 @@ class _AnamneseState extends State<Anamnese> {
   bool _checksimExercicio = true;
   bool _checknaoExercicio = false;
 
+  FlutterSecureStorage _storage = FlutterSecureStorage();
 
+  void sendAnamnese() async{
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
