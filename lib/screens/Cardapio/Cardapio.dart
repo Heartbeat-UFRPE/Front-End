@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:ui';
 import 'dart:io';
 import 'dart:async';
@@ -21,11 +22,11 @@ class _CardapioState extends State<Cardapio> {
 
   String _currentday = "segunda";
   dynamic data;
-
+  FlutterSecureStorage _storage = FlutterSecureStorage();
 
   Future<List<Alimento>> getJSONData(String weekDia , String dayhour) async{
-
-    final String url = "http://192.168.0.7:4444/cardapio";
+    String userID = await _storage.read(key: "userId");
+    final String url = "http://192.168.90.35:4444/cardapio/$userID";
     var response = await http.get(url);
     data = json.decode(response.body);
     var dayfood = data[weekDia];
@@ -34,7 +35,7 @@ class _CardapioState extends State<Cardapio> {
     print(hourfood);
     for(var u in hourfood){
 
-      Alimento alimento = Alimento(comida: u["comida"],Kcal: u["kcal"],quantidade: u["quantidade"]);
+      Alimento alimento = Alimento(comida: u["comida"], Kcal: u["kcal"], quantidade: u["quantidade"]);
       diafood.add(alimento);
     }
     print(diafood);

@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:ui';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'home.dart';
 
 
 class Anamnese extends StatefulWidget {
@@ -21,12 +26,39 @@ class _AnamneseState extends State<Anamnese> {
   bool _checkfumante = false;
   bool _checksimExercicio = true;
   bool _checknaoExercicio = false;
-
+  String sono_value ;
+  String peso_value ;
+  String altura_value;
+  String estresse_value;
+  String hipertessao_values;
+  String diabetes_values;
+  String cardioDeaseses_values;
+  String smoking_values;
+  String anemic_values;
+  String excersises_values;
   FlutterSecureStorage _storage = FlutterSecureStorage();
 
   void sendAnamnese() async{
+    String userId = await _storage.read(key: "userId");
+    final apiURLanamnese = 'http://192.168.90.35:4444/anamnese/$userId';
+    await http.post(apiURLanamnese,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "UserID": userId,
+          "height": altura_value,
+          "weight": peso_value,
+          "highPressure": hipertessao_values,
+          "heartDiseases": cardioDeaseses_values,
+          "physicalActivity": excersises_values,
+          "stress": estresse_value,
+          "hoursSleep": sono_value,
+          "anaemia": anemic_values,
+          "smoking": smoking_values,
+          "diabetes": diabetes_values}));
 
-
+    Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Home() ));
   }
 
   @override
@@ -182,7 +214,7 @@ class _AnamneseState extends State<Anamnese> {
                               ),
                               Container (
                                   child: CheckboxListTile(
-                                    title: const Text('Pressão Baixa', style: TextStyle(color: Colors.black87),),
+                                    title: const Text('Diabetes', style: TextStyle(color: Colors.black87),),
                                     checkColor: Colors.white,
                                     value: _checkdiabetes,
                                     activeColor: Colors.red,
@@ -371,7 +403,7 @@ class _AnamneseState extends State<Anamnese> {
                                 width: 250,
                                 child: RaisedButton(
                                   child: const Text("Continuar", textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
-                                  onPressed: () {},
+                                  onPressed: () {trateAnamnese();},
                                   shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                                   textColor: Colors.white,
                                   color: Colors.redAccent,
@@ -393,4 +425,19 @@ class _AnamneseState extends State<Anamnese> {
           ),
         )
     );}
+    void trateAnamnese() {
+
+      sono_value = _currentSliderValueSono.toString();
+      peso_value = _currentSliderValuePeso.toString();
+      altura_value = _currentSliderValueAltura.toString();
+      estresse_value = _currentSliderValueestresse.toString();
+      if (_checkHipertensao = true){hipertessao_values = "1";}else{hipertessao_values = "0";}
+      if (_checkdiabetes = true){diabetes_values = "1";}else{diabetes_values = "0";}
+      if (_checkcadio = true){cardioDeaseses_values = "1";}else{cardioDeaseses_values = "0";}
+      if (_checkfumante = true){smoking_values = "1";}else{smoking_values = "0";}
+      if (_checkanemia = true){anemic_values = "1";}else{anemic_values = "0";}
+      if (_checksimExercicio = true){excersises_values = "1";}else{excersises_values = "0";}
+
+      sendAnamnese();
+    }
 }
