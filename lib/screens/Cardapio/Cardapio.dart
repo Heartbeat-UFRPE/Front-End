@@ -19,17 +19,17 @@ class Cardapio extends StatefulWidget {
 }
 
 class _CardapioState extends State<Cardapio> {
-
-  String _currentday = "segunda";
+  DateTime now = new DateTime.now();
+  List<String> listaDia = ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sabado", "Domingo"];
   dynamic data;
   FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  Future<List<Alimento>> getJSONData(String weekDia , String dayhour) async{
+  Future<List<Alimento>> getJSONData(String dayhour) async{
     String userID = await _storage.read(key: "userId");
     final String url = "http://192.168.90.35:4444/cardapio/$userID";
     var response = await http.get(url);
     data = json.decode(response.body);
-    var dayfood = data[weekDia];
+    var dayfood = data[now.weekday - 1];
     var hourfood = dayfood[dayhour];
     List<Alimento> diafood = [];
     print(hourfood);
@@ -64,7 +64,7 @@ class _CardapioState extends State<Cardapio> {
             );
           },
         ),
-        title: Text(_currentday),
+        title: Text(listaDia[now.weekday]),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -104,7 +104,7 @@ class _CardapioState extends State<Cardapio> {
                             height: 150,
                             child: Row( children : [ Expanded(
                                 child : FutureBuilder(
-                              future: getJSONData(_currentday , "cafe"),
+                              future: getJSONData( "cafe"),
                               builder: (BuildContext context, AsyncSnapshot snapshot){
                                 if(snapshot.data == null){
                                   return Container(
@@ -139,7 +139,7 @@ class _CardapioState extends State<Cardapio> {
                               height: 150,
                               child: Row( children : [ Expanded(
                                   child : FutureBuilder(
-                                      future: getJSONData(_currentday , "almoco"),
+                                      future: getJSONData( "almoco"),
                                       builder: (BuildContext context, AsyncSnapshot snapshot){
                                         if(snapshot.data == null){
                                           return Container(
@@ -172,7 +172,7 @@ class _CardapioState extends State<Cardapio> {
                               height: 150,
                               child: Row( children : [ Expanded(
                                   child : FutureBuilder(
-                                      future: getJSONData(_currentday , "jantar"),
+                                      future: getJSONData(  "jantar"),
                                       builder: (BuildContext context, AsyncSnapshot snapshot){
                                         if(snapshot.data == null){
                                           return Container(

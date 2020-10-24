@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:heartbeat/screens/Register.dart';
+import 'package:heartbeat/screens/CRUD/RecuperarSenha.dart';
+import 'package:heartbeat/screens/CRUD/Register.dart';
 import 'package:heartbeat/screens/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -21,7 +22,7 @@ class _LoginState extends State<Login> {
 
   }
 
-  final apiURL = 'http://192.168.100.5:4444/login';
+  final apiURL = 'http://192.168.43.56:4444/login';
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
 
@@ -35,7 +36,8 @@ class _LoginState extends State<Login> {
       dynamic resp = jsonDecode(response.body);
 
       if(response.statusCode != 200){
-          print(response.statusCode);
+          print(response.body);
+          showAlertLoginNot(context);
       }
       else{
         final token = resp["token"];
@@ -177,12 +179,49 @@ class _LoginState extends State<Login> {
                     )),
                   ),
                 ),
-                
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: GestureDetector(
+                    child: Text("Esqueceu sua senha?",
+                      style: TextStyle(color: Colors.white),),
+                    onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(
+                        builder: (context) => RecuperarSenha()
+                    )),
+                  ),
+                ),
+
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+  showAlertLoginNot(BuildContext context) {
+    Widget naoButton = FlatButton(
+      child: Text("Ok!", style: TextStyle(color: Colors.amberAccent)),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
+      backgroundColor: Colors.red,
+      title: Text("Opa !", style: TextStyle(color: Colors.white),),
+      content: Text("O email ou senha estão incorretos , Porfavor verifique as informações", style: TextStyle(color: Colors.white),),
+      actions: [
+        naoButton,
+      ],
+      elevation: 24.0,
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
