@@ -9,9 +9,14 @@ import 'package:heartbeat/stores/page_store.dart';
 import '../login.dart';
 
 
+<<<<<<< HEAD
 
 class DrawerMenu extends StatefulWidget {
 
+=======
+class DrawerMenu extends StatefulWidget {
+
+>>>>>>> stable
   @override
   _DrawerMenuState createState() => _DrawerMenuState();
 }
@@ -19,6 +24,8 @@ class DrawerMenu extends StatefulWidget {
 class _DrawerMenuState extends State<DrawerMenu> {
   final PageStore _pageStore = GetIt.I<PageStore>();
   FlutterSecureStorage _storage = FlutterSecureStorage();
+
+
 
   @override
   Widget build(BuildContext context) {

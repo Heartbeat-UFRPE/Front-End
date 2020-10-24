@@ -37,7 +37,10 @@ class _LoginState extends State<Login> {
 
       if(response.statusCode != 200){
           print(response.body);
+<<<<<<< HEAD
           showAlertLoginNot(context);
+=======
+>>>>>>> stable
       }
       else{
         final token = resp["token"];
@@ -189,7 +192,11 @@ class _LoginState extends State<Login> {
                     )),
                   ),
                 ),
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> stable
               ],
             ),
           ],
