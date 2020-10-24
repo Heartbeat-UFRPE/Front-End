@@ -24,7 +24,7 @@ class _ConfigurationState extends State<Configuration> {
 
   void changeEmail() async{
     String emailcheck = _controlnewEmail.text;
-    final apiURLcheck = 'http://192.168.90.35:4444/userEmail/$emailcheck';
+    final apiURLcheck = 'http://192.168.100.5:4444/userEmail/$emailcheck';
     var response = await http.get(apiURLcheck,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -33,7 +33,7 @@ class _ConfigurationState extends State<Configuration> {
     if (response.body == '[]') {
       if (_validateEmail(_controlnewEmail.text) == null) {
         String userId = await _storage.read(key: "userId");
-        final apiURLupEmail = 'http://192.168.90.35:4444/user/update/email/$userId';
+        final apiURLupEmail = 'http://192.168.100.5:4444/user/update/email/$userId';
         await http.post(apiURLupEmail,
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
@@ -50,7 +50,7 @@ class _ConfigurationState extends State<Configuration> {
 
   void changeSenha() async{
     String userId = await _storage.read(key: "userId");
-    final apiURLupSenha = 'http://192.168.90.35:4444/user/update/password/$userId';
+    final apiURLupSenha = 'http://192.168.100.5:4444/user/update/password/$userId';
       if (_validateSenha(_controlSenha.text) == null){
         await http.post(apiURLupSenha,
             headers: <String, String>{
@@ -66,12 +66,13 @@ class _ConfigurationState extends State<Configuration> {
 
   void deleteAccount() async{
     String userId = await _storage.read(key: "userId");
-    final apiURLdelAcc = 'http://192.168.90.35:4444/user/delete/$userId';
+    final apiURLdelAcc = 'http://192.168.100.5:4444/user/delete/$userId';
     await http.get(apiURLdelAcc,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
     await _storage.deleteAll();
+    Navigator.of(context).pop();
     Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Login() ));
   }
 

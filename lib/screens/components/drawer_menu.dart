@@ -9,14 +9,10 @@ import 'package:heartbeat/stores/page_store.dart';
 import '../login.dart';
 
 
-<<<<<<< HEAD
 
 class DrawerMenu extends StatefulWidget {
 
-=======
-class DrawerMenu extends StatefulWidget {
 
->>>>>>> stable
   @override
   _DrawerMenuState createState() => _DrawerMenuState();
 }

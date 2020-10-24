@@ -20,14 +20,15 @@ class Cardapio extends StatefulWidget {
 
 class _CardapioState extends State<Cardapio> {
   DateTime now = new DateTime.now();
-  List<String> listaDia = ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sabado", "Domingo"];
+  List<String> listaDia = ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"];
   dynamic data;
   FlutterSecureStorage _storage = FlutterSecureStorage();
 
   Future<List<Alimento>> getJSONData(String dayhour) async{
     String userID = await _storage.read(key: "userId");
-    final String url = "http://192.168.90.35:4444/cardapio/$userID";
+    final String url = "http://192.168.100.5:4444/cardapio/$userID";
     var response = await http.get(url);
+    print(response.body);
     data = json.decode(response.body);
     var dayfood = data[now.weekday - 1];
     var hourfood = dayfood[dayhour];
@@ -64,7 +65,7 @@ class _CardapioState extends State<Cardapio> {
             );
           },
         ),
-        title: Text(listaDia[now.weekday]),
+        title: Text(listaDia[now.weekday-1]),
       ),
       body: Container(
         decoration: BoxDecoration(

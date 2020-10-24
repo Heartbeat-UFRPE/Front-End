@@ -40,7 +40,7 @@ class _AnamneseState extends State<Anamnese> {
 
   void sendAnamnese() async{
     String userId = await _storage.read(key: "userId");
-    final apiURLanamnese = 'http://192.168.90.35:4444/anamnese/$userId';
+    final apiURLanamnese = 'http://192.168.100.5:4444/anamnese/$userId';
     await http.post(apiURLanamnese,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -431,12 +431,12 @@ class _AnamneseState extends State<Anamnese> {
       peso_value = _currentSliderValuePeso.toString();
       altura_value = _currentSliderValueAltura.toString();
       estresse_value = _currentSliderValueestresse.toString();
-      if (_checkHipertensao = true){hipertessao_values = "1";}else{hipertessao_values = "0";}
-      if (_checkdiabetes = true){diabetes_values = "1";}else{diabetes_values = "0";}
-      if (_checkcadio = true){cardioDeaseses_values = "1";}else{cardioDeaseses_values = "0";}
-      if (_checkfumante = true){smoking_values = "1";}else{smoking_values = "0";}
-      if (_checkanemia = true){anemic_values = "1";}else{anemic_values = "0";}
-      if (_checksimExercicio = true){excersises_values = "1";}else{excersises_values = "0";}
+      if (_checkHipertensao){hipertessao_values = "1";}else{hipertessao_values = "0";}
+      if (_checkdiabetes){diabetes_values = "1";}else{diabetes_values = "0";}
+      if (_checkcadio){cardioDeaseses_values = "1";}else{cardioDeaseses_values = "0";}
+      if (_checkfumante){smoking_values = "1";}else{smoking_values = "0";}
+      if (_checkanemia){anemic_values = "1";}else{anemic_values = "0";}
+      if (_checksimExercicio){excersises_values = "1";}else{excersises_values = "0";}
 
       sendAnamnese();
     }

@@ -22,7 +22,7 @@ class _LoginState extends State<Login> {
 
   }
 
-  final apiURL = 'http://192.168.43.56:4444/login';
+  final apiURL = 'http://192.168.100.5:4444/login';
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
 
@@ -37,10 +37,9 @@ class _LoginState extends State<Login> {
 
       if(response.statusCode != 200){
           print(response.body);
-<<<<<<< HEAD
+
           showAlertLoginNot(context);
-=======
->>>>>>> stable
+
       }
       else{
         final token = resp["token"];
@@ -192,11 +191,7 @@ class _LoginState extends State<Login> {
                     )),
                   ),
                 ),
-<<<<<<< HEAD
 
-=======
-                
->>>>>>> stable
               ],
             ),
           ],

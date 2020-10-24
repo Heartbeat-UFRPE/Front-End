@@ -37,14 +37,14 @@ class _RegisterState extends State<Register> {
 
   Future<void> createUser() async {
     String emailcheck = _controlEmail.text;
-    final apiURLcheck = 'http://192.168.90.35:4444/userEmail/$emailcheck';
+    final apiURLcheck = 'http://192.168.100.5:4444/userEmail/$emailcheck';
     var response = await http.get(apiURLcheck,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
     print(response.body);
     if (response.body == '[]') {
-      final apiURLcreate = 'http://192.168.90.35:4444/user/create';
+      final apiURLcreate = 'http://192.168.100.5:4444/user/create';
       await http.post(apiURLcreate,
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -56,7 +56,7 @@ class _RegisterState extends State<Register> {
             "sex": _controlSex,
             "password": _controlSenha.text}));
 
-      final apiURLlogin = 'http://192.168.90.35:4444/login';
+      final apiURLlogin = 'http://192.168.100.5:4444/login';
       var response = await http.post(apiURLlogin,
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
